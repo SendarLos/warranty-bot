@@ -10,8 +10,6 @@ import json
 import os
 import asyncio
 
-from fastapi.responses import JSONResponse
-
 API_TOKEN = os.getenv("BOT_TOKEN")
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
@@ -163,9 +161,11 @@ app = web.Application()
 SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
 app.on_startup.append(on_startup)
 
-@app.get("/ping")
+# AIOHTTP-compatible ping route
 async def ping(request):
-    return JSONResponse(content={"status": "ok"})
+    return web.json_response({"status": "ok"})
+
+app.router.add_get("/ping", ping)
 
 if __name__ == "__main__":
     setup_application(app, dp, bot=bot)
