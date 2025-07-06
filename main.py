@@ -3,6 +3,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
+from aiogram.client.default import DefaultBotProperties  # Добавлен новый импорт
 from aiohttp import web
 from datetime import datetime, timedelta
 import json
@@ -14,7 +15,11 @@ WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Полная ссылка вида https://your-service.onrender.com
 PORT = int(os.getenv("PORT", 10000))
 
-bot = Bot(token=API_TOKEN, parse_mode=ParseMode.HTML)
+# Измененная инициализация бота с DefaultBotProperties
+bot = Bot(
+    token=API_TOKEN,
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML)  # Новый способ указания parse_mode
+)
 dp = Dispatcher()
 router = Router()
 dp.include_router(router)
@@ -88,9 +93,8 @@ async def show_hotkeys(message: types.Message):
 async def send_faq(message: types.Message):
     await message.answer(
         "📚 Ознакомьтесь с официальным руководством пользователя Mac от Apple:\n"
-        "🔗 <a href='https://support.apple.com/ru-ru/mac'>Официальное руководство Apple</a>",
-        parse_mode="HTML"
-    )
+        "🔗 <a href='https://support.apple.com/ru-ru/mac'>Официальное руководство Apple</a>"
+    )  # parse_mode теперь установлен глобально в DefaultBotProperties
 
 @router.message(lambda message: message.text == "🛠 Обратиться за ремонтом")
 async def contact_for_repair(message: types.Message):
