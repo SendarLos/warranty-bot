@@ -157,13 +157,14 @@ async def check_status(message: types.Message):
 async def on_startup(app):
     await bot.set_webhook(WEBHOOK_URL + WEBHOOK_PATH)
 
-async def ping(request):
-    return web.json_response({"status": "ok"})
-
 app = web.Application()
 SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
-app.router.add_get("/ping", ping)
 app.on_startup.append(on_startup)
+
+# Новый GET-эндпоинт для UptimeRobot
+@app.router.get("/ping")
+async def ping(request):
+    return web.json_response({"status": "ok"})
 
 if __name__ == "__main__":
     setup_application(app, dp, bot=bot)
