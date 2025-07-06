@@ -81,8 +81,7 @@ async def show_hotkeys(message: types.Message):
 @router.message(lambda message: message.text == "📚 FAQ по MacBook")
 async def send_faq(message: types.Message):
     await message.answer(
-        "📚 Ознакомьтесь с официальным руководством пользователя Mac от Apple:
-"
+        "📚 Ознакомьтесь с официальным руководством пользователя Mac от Apple:"
         "🔗 <a href='https://support.apple.com/ru-ru/mac'>Официальное руководство Apple</a>",
         parse_mode="HTML"
     )
