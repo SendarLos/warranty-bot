@@ -1,8 +1,8 @@
 services:
   - type: web
     name: warranty-bot
-    env: python
-    pythonVersion: 3.11
+    env:
+  PYTHON_VERSION: "3.12.12"
     plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
