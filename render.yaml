@@ -1,12 +1,13 @@
 services:
   - type: web
-    name: warranty-bot-webhook
+    name: warranty-bot
     env: python
+    pythonVersion: 3.11
+    plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
-    plan: free
     envVars:
       - key: BOT_TOKEN
-        sync: false
+        fromEnvVar: BOT_TOKEN
       - key: WEBHOOK_URL
-        sync: false
+        fromEnvVar: WEBHOOK_URL
