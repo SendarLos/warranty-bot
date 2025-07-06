@@ -164,3 +164,8 @@ app.on_startup.append(on_startup)
 if __name__ == "__main__":
     setup_application(app, dp, bot=bot)
     web.run_app(app, host="0.0.0.0", port=PORT)
+from fastapi.responses import JSONResponse
+
+@app.get("/ping")
+async def ping():
+    return JSONResponse(content={"status": "ok"})
