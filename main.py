@@ -161,10 +161,12 @@ app = web.Application()
 SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
 app.on_startup.append(on_startup)
 
-# Новый GET-эндпоинт для UptimeRobot
-@app.router.get("/ping")
+# Новый эндпоинт /ping для UptimeRobot
 async def ping(request):
+    print(f"[PING] {datetime.now().isoformat()} - Ping received from {request.remote}")
     return web.json_response({"status": "ok"})
+
+app.router.add_get("/ping", ping)
 
 if __name__ == "__main__":
     setup_application(app, dp, bot=bot)
