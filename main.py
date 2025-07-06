@@ -3,7 +3,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
-from aiogram.client.default import DefaultBotProperties  # Добавлен новый импорт
+from aiogram.client.default import DefaultBotProperties
 from aiohttp import web
 from datetime import datetime, timedelta
 import json
@@ -12,13 +12,12 @@ import asyncio
 
 API_TOKEN = os.getenv("BOT_TOKEN")
 WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Полная ссылка вида https://your-service.onrender.com
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 PORT = int(os.getenv("PORT", 10000))
 
-# Измененная инициализация бота с DefaultBotProperties
 bot = Bot(
     token=API_TOKEN,
-    default=DefaultBotProperties(parse_mode=ParseMode.HTML)  # Новый способ указания parse_mode
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
 )
 dp = Dispatcher()
 router = Router()
@@ -44,7 +43,7 @@ def get_main_keyboard():
 
 @router.message(Command("start"))
 async def send_welcome(message: types.Message):
-    await message.answer("\ud83d\udc4b Привет! Выберите действие из меню ниже:", reply_markup=get_main_keyboard())
+    await message.answer("👋 Привет! Выберите действие из меню ниже:", reply_markup=get_main_keyboard())
 
 @router.message(lambda message: message.text.lower() == "активация гарантии")
 async def handle_activation_button(message: types.Message):
@@ -61,7 +60,7 @@ async def download_software(message: types.Message):
 @router.message(lambda message: message.text == "⌨️ Горячие клавиши")
 async def show_hotkeys(message: types.Message):
     text = (
-        "\u2328\ufe0f <b>Горячие клавиши Mac</b>\n"
+        "⌨️ <b>Горячие клавиши Mac</b>\n"
         "<b>1. Основные</b>\n"
         "⌘Cmd + C / V / X — Копировать / Вставить / Вырезать\n"
         "⌘Cmd + Z / Shift + Z — Отмена / Вернуть\n"
@@ -94,11 +93,11 @@ async def send_faq(message: types.Message):
     await message.answer(
         "📚 Ознакомьтесь с официальным руководством пользователя Mac от Apple:\n"
         "🔗 <a href='https://support.apple.com/ru-ru/mac'>Официальное руководство Apple</a>"
-    )  # parse_mode теперь установлен глобально в DefaultBotProperties
+    )
 
 @router.message(lambda message: message.text == "🛠 Обратиться за ремонтом")
 async def contact_for_repair(message: types.Message):
-    await message.answer("\ud83d\udee0 По вопросам ремонта пишите сюда: @AntonPotur")
+    await message.answer("🛠 По вопросам ремонта пишите сюда: @AntonPotur")
 
 @router.message(lambda message: message.text.isdigit())
 async def register_warranty(message: types.Message):
@@ -156,7 +155,6 @@ async def check_status(message: types.Message):
             f"⚠️ Гарантия на покупку №{warranty['purchase_id']} истекла {warranty['expires_at']}."
         )
 
-# Webhook handler setup
 async def on_startup(app):
     await bot.set_webhook(WEBHOOK_URL + WEBHOOK_PATH)
 
