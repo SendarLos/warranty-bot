@@ -45,8 +45,7 @@ async def handle_status_button(message: types.Message):
 
 @router.message(lambda message: message.text == "📥 Скачать ПО")
 async def download_software(message: types.Message):
-    await message.answer("Вот ссылка на загрузку ПО:
-https://drive.google.com/drive/folders/1DEJhKjVoX_Csh3OLn9tu28gqAXlnM9Nv?usp=share_link")
+    await message.answer("Вот ссылка на загрузку ПО:\nhttps://drive.google.com/drive/folders/1DEJhKjVoX_Csh3OLn9tu28gqAXlnM9Nv?usp=share_link")
 
 @router.message(lambda message: message.text == "⌨️ Горячие клавиши")
 async def show_hotkeys(message: types.Message):
